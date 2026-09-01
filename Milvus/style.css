@@ -3351,6 +3351,18 @@
         overflow: hidden;
       }
 
+      .msg-overlay #t8-fullscreen-overlay-root {
+        position: absolute;
+        inset: 0;
+        z-index: 10000;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .msg-overlay #t8-fullscreen-overlay-root > * {
+        pointer-events: auto;
+      }
+
       .msg-overlay .no-scrollbar::-webkit-scrollbar {
         display: none;
       }
@@ -8163,11 +8175,10 @@
       }
       
       .vn-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
         background-color: #000;
         z-index: 9999;
         display: flex;
@@ -8187,6 +8198,7 @@
         z-index: 1;
         transition: background-image 0.5s ease;
         filter: brightness(0.8); 
+        user-select: none;
       }
 
       
@@ -8200,12 +8212,14 @@
         display: flex;
         align-items: flex-end;
         pointer-events: none; 
+        user-select: none;
       }
 
       .vn-sprite {
         max-height: 100%;
-        max-width: 100vw;
+        max-width: 100%;
         object-fit: contain;
+        user-select: none;
         transition:
           opacity 0.3s ease,
           transform 0.3s ease;

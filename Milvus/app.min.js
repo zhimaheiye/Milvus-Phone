@@ -109080,11 +109080,25 @@ const NewUniversePage = ({ onBack, chatData, universeParams }) => {
     setShowMenuModal(true);
     setMenuView("main");
   };
+  const stopUniverseEvent = (e) => e.stopPropagation();
+  const handleUniverseClick = (e) => {
+    e.stopPropagation();
+    handleNextLine();
+  };
+  const universeEventProps = {
+    onPointerDown: stopUniverseEvent,
+    onPointerMove: stopUniverseEvent,
+    onPointerUp: stopUniverseEvent,
+    onTouchStart: stopUniverseEvent,
+    onTouchMove: stopUniverseEvent
+  };
   if (!currentLine) {
     return /* @__PURE__ */ React.createElement(
       "div",
       {
         className: "vn-overlay open",
+        onClick: stopUniverseEvent,
+        ...universeEventProps,
         style: {
           display: "flex",
           alignItems: "center",
@@ -109094,7 +109108,7 @@ const NewUniversePage = ({ onBack, chatData, universeParams }) => {
       /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", color: "#fff" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "48px", marginBottom: "16px" } }, "\u2728"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "18px", fontWeight: "bold" } }, isGeneratingScript ? "\u6B63\u5728\u7F16\u7EC7\u65B0\u5B87\u5B99..." : "\u5B87\u5B99\u521D\u59CB\u5316\u4E2D..."))
     );
   }
-  return /* @__PURE__ */ React.createElement("div", { className: "vn-overlay open", onClick: handleNextLine }, /* @__PURE__ */ React.createElement(
+  return /* @__PURE__ */ React.createElement("div", { className: "vn-overlay open", onClick: handleUniverseClick, ...universeEventProps }, /* @__PURE__ */ React.createElement(
     "div",
     {
       className: "vn-background",
@@ -109121,9 +109135,11 @@ const NewUniversePage = ({ onBack, chatData, universeParams }) => {
       {
         src: finalDisplaySprite,
         alt: "character sprite",
+        className: "vn-sprite",
+        draggable: false,
         style: {
           maxHeight: "100%",
-          maxWidth: "100vw",
+          maxWidth: "100%",
           objectFit: "contain"
         }
       }
@@ -110243,7 +110259,7 @@ ${mimicResult}`;
     }
   };
   if (showNewUniverse) {
-    return /* @__PURE__ */ React.createElement(
+    const universePage = /* @__PURE__ */ React.createElement(
       NewUniversePage,
       {
         onBack: () => setShowNewUniverse(false),
@@ -110257,6 +110273,8 @@ ${mimicResult}`;
         }
       }
     );
+    const portalHost = document.getElementById("t8-fullscreen-overlay-root");
+    return portalHost ? ReactDOM.createPortal(universePage, portalHost) : universePage;
   }
   return /* @__PURE__ */ React.createElement("div", { className: "bells-overlay open", onClick: onBack }, stars.map((s, i) => /* @__PURE__ */ React.createElement(
     "div",
@@ -119502,6 +119520,7 @@ const T8Page = () => {
   };
   const activeChatData = chats.find((c) => c.id === activeChatId);
   return /* @__PURE__ */ React.createElement("div", { id: "app-root" },
+    /* @__PURE__ */ React.createElement("div", { id: "t8-fullscreen-overlay-root" }),
     showMansion && /* @__PURE__ */ React.createElement(HeartPaperMansion, { onClose: () => setShowMansion(false), chats }),
     /* @__PURE__ */ React.createElement(
     T8ImportPersonaModal,

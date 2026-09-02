@@ -119520,7 +119520,6 @@ const T8Page = () => {
   };
   const activeChatData = chats.find((c) => c.id === activeChatId);
   return /* @__PURE__ */ React.createElement("div", { id: "app-root" },
-    /* @__PURE__ */ React.createElement("div", { id: "t8-fullscreen-overlay-root" }),
     showMansion && /* @__PURE__ */ React.createElement(HeartPaperMansion, { onClose: () => setShowMansion(false), chats }),
     /* @__PURE__ */ React.createElement(
     T8ImportPersonaModal,
@@ -136149,7 +136148,7 @@ const MasterApp = () => {
         strokeLinejoin: "round"
       },
       /* @__PURE__ */ React.createElement("path", { d: "m15 18-6-6 6-6" })
-    )), /* @__PURE__ */ React.createElement("div", { className: "title" }, "\u4F20\u8BAF")), /* @__PURE__ */ React.createElement(T8Page, null)),
+    )), /* @__PURE__ */ React.createElement("div", { className: "title" }, "\u4F20\u8BAF")), /* @__PURE__ */ React.createElement("div", { id: "t8-fullscreen-overlay-root" }), /* @__PURE__ */ React.createElement(T8Page, null)),
     /* @__PURE__ */ React.createElement("div", { className: `t9-overlay ${isT9Open ? "open" : ""}` }, /* @__PURE__ */ React.createElement("div", { className: "t9-nav" }, /* @__PURE__ */ React.createElement("div", { className: "back-btn", onClick: () => setIsT9Open(false) }, /* @__PURE__ */ React.createElement(
       "svg",
       {

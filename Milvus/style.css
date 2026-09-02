@@ -3308,10 +3308,12 @@
         font-family:
           -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue",
           Arial, sans-serif;
+        pointer-events: none;
       }
 
       .msg-overlay.open {
         transform: translateY(0);
+        pointer-events: auto;
       }
 
       
@@ -3327,6 +3329,7 @@
         --safe-top: env(safe-area-inset-top, 20px);
         --safe-bottom: env(safe-area-inset-bottom, 20px);
         --header-h: 64px;
+        --msg-nav-h: 56px;
         --max-width: 428px;
       }
 
@@ -3351,15 +3354,29 @@
         overflow: hidden;
       }
 
+      @media (min-width: 429px) and (hover: hover) and (pointer: fine) {
+        .msg-overlay #app-root {
+          max-width: none;
+          width: 100%;
+        }
+      }
+
       .msg-overlay #t8-fullscreen-overlay-root {
         position: absolute;
-        inset: 0;
+        top: var(--msg-nav-h);
+        left: 0;
+        right: 0;
+        bottom: 0;
         z-index: 10000;
         overflow: hidden;
         pointer-events: none;
       }
 
       .msg-overlay #t8-fullscreen-overlay-root > * {
+        pointer-events: none;
+      }
+
+      .msg-overlay.open #t8-fullscreen-overlay-root > * {
         pointer-events: auto;
       }
 
@@ -3413,7 +3430,7 @@
 
       
       .msg-nav {
-        height: 56px;
+        height: var(--msg-nav-h, 56px);
         display: flex;
         align-items: center;
         justify-content: center;

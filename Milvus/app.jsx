@@ -132498,6 +132498,7 @@ const RegistrationModal = ({ onVerified }) => {
       `)
   );
 };
+const DEFAULT_BATTERY_LEVEL = 85;
 const MasterApp = () => {
   const [isRegistered, setIsRegistered] = useState(() => {
     return localStorage.getItem("morandi_reg_code_verified") === "true";
@@ -132843,7 +132844,35 @@ const MasterApp = () => {
       window.removeEventListener("homepage_weather_advice_updated", updateWeatherAdvice);
     };
   }, []);
-  const [battery, setBattery] = useState(85);
+  const [batteryLevel, setBatteryLevel] = useState(DEFAULT_BATTERY_LEVEL);
+  useEffect(() => {
+    if (typeof navigator === "undefined" || typeof navigator.getBattery !== "function") {
+      return;
+    }
+    let battery = null;
+    let disposed = false;
+    const updateBatteryLevel = () => {
+      if (!battery || disposed) return;
+      const level = Math.round(battery.level * 100);
+      if (Number.isFinite(level) && level >= 0 && level <= 100) {
+        setBatteryLevel(level);
+      }
+    };
+    navigator.getBattery().then((batteryManager) => {
+      if (disposed) return;
+      battery = batteryManager;
+      updateBatteryLevel();
+      battery.addEventListener("levelchange", updateBatteryLevel);
+    }).catch((error) => {
+      console.warn("[Battery] Unable to read device battery level, using fallback:", error);
+    });
+    return () => {
+      disposed = true;
+      if (battery) {
+        battery.removeEventListener("levelchange", updateBatteryLevel);
+      }
+    };
+  }, []);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isWeatherOpen, setIsWeatherOpen] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
@@ -134345,11 +134374,11 @@ const MasterApp = () => {
             backgroundColor: homeBg ? "transparent" : "var(--bg-r2)"
           }
         },
-        /* @__PURE__ */ React.createElement("nav", { className: "header-r2" }, /* @__PURE__ */ React.createElement("div", { className: "battery-container" }, /* @__PURE__ */ React.createElement("span", null, battery, "%"), /* @__PURE__ */ React.createElement("div", { className: "battery-icon" }, /* @__PURE__ */ React.createElement(
+        /* @__PURE__ */ React.createElement("nav", { className: "header-r2" }, /* @__PURE__ */ React.createElement("div", { className: "battery-container" }, /* @__PURE__ */ React.createElement("span", null, batteryLevel, "%"), /* @__PURE__ */ React.createElement("div", { className: "battery-icon" }, /* @__PURE__ */ React.createElement(
           "div",
           {
             className: "battery-level",
-            style: { width: `${battery}%` }
+            style: { width: `${batteryLevel}%` }
           }
         )))),
         foldCardConfig.customCss && /* @__PURE__ */ React.createElement("style", { id: "foldcard-custom-user-css" }, foldCardConfig.customCss),

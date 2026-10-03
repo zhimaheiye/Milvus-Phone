@@ -68,13 +68,13 @@ upstream/main → pr/xxx → 只有该功能 commit → PR
 
 | 文档 | 功能 | 状态 |
 |------|------|------|
+| `docs/features/batch-image-import.md` | 表情包批量图片导入 | PR #2 已合并上游 |
 | `docs/features/calendar-layout-polish.md` | 日历年份选择器 + 任务卡操作层 | 已合入 personal；PR #4 待上游合并 |
 | `docs/features/device-battery.md` | 动态读取设备电量 | 已合入 personal；上游 PR 待 #4 结果后决定 |
 | `docs/features/phosphor-local-assets.md` | Phosphor 图标本地化 | personal 专属；不提交上游 |
 | `docs/features/universe-desktop-layout.md` | 三千世界桌面适配 | personal 专属；不提交上游 |
 
 旧功能记录见 `local-docs/CHANGELOG.md`：
-- 批量图片导入 → PR #2（已合并上游）
 - 头像双来源 → PR #1（已合并上游）
 - 心纸居角色清理 → PR #3（Open）
 
@@ -101,6 +101,7 @@ upstream/main → pr/xxx → 只有该功能 commit → PR
 
 运行测试：
 ```
+node tests/batch-image-import.test.js
 node tests/device-battery.test.js
 node tests/calendar-layout-polish.test.js
 node tests/phosphor-local-assets.test.js
